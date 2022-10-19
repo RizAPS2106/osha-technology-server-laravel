@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use PDF;
 use App\Models\Applicant;
-use Illuminate\Http\Request;
 use App\Helpers\APIFormatter;
-use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\UpdateApplicantRequest as RequestUpdateApplicantRequest;
 use App\Http\Requests\ApplyRequest as RequestsApplyRequest;
 
@@ -104,25 +101,6 @@ class ApplicantController extends Controller
      */
     public function update(RequestUpdateApplicantRequest $request, Applicant $applicant, $id)
     {
-        // $input = $request->validate([
-        //     'name' => 'required',
-        //     'email' => 'required|unique:applicant,email,' . $id,
-        //     'position' => 'required',
-        //     'birthPlace' => 'required',
-        //     'birthDate' => 'required',
-        //     'gender' => 'required',
-        //     'status' => 'required',
-        //     'education' => 'required',
-        //     'edufrom' => 'required',
-        //     'eduto' => 'required',
-        //     'workingexp' => 'required',
-        //     'workfrom' => 'required',
-        //     'workto' => 'required',
-        //     'workingpos' => 'required',
-        //     'workingdesc' => 'required',
-        //     'capabilities' => 'required',
-        // ]);
-
         $applicant = Applicant::findOrFail($id);
 
         $applicant->update([

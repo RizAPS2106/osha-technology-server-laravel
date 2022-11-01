@@ -16,4 +16,6 @@ class AdminAccess extends Model
     protected $table = 'admin_access';
     protected $guarded = [];
     protected $hidden = [];
+
+    
 }

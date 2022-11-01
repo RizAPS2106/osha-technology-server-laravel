@@ -38,13 +38,7 @@ class ApplyRequest extends FormRequest
             'status' => 'required',
             'education' => 'required',
             'edufrom' => 'required',
-            'eduto' => 'required',
-            'workingexp' => 'required',
-            'workfrom' => 'required',
-            'workto' => 'required',
-            'workingpos' => 'required',
-            'workingdesc' => 'required',
-            'capabilities' => 'required',
+            'eduto' => 'required'
         ];
     }
 

@@ -7,23 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Applicant extends Model
+class Projects extends Model
 {
     use HasFactory;
     use SoftDeletes;
     use HasApiTokens;
 
-    protected $table = 'applicant';
+    protected $table = 'work_projects';
     protected $guarded = [];
     protected $hidden = [];
 
     public function experience()
     {
-        return $this->hasMany('App\Models\Experience');
-    }
-
-    public function capabilities()
-    {
-        return $this->hasMany('App\Models\Capabilities');
+        return $this->belongsTo('App\Models\Experience');
     }
 }

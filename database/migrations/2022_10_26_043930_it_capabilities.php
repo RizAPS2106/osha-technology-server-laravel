@@ -13,17 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('applicant', function (Blueprint $table) {
+        Schema::create('it_capabilities', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('position');
-            $table->string('birthPlace');
-            $table->string('birthDate');
-            $table->string('gender');
-            $table->string('status');
-            $table->string('latest_education');
-            $table->string('education_period');
+            $table->foreignId('applicant_id')->constrained('applicant')->onDelete('cascade');
+            $table->string('capability');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -36,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('applicant');
+        Schema::dropIfExists('it_capabilities');
     }
 };

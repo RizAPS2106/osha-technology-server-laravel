@@ -6,6 +6,7 @@ use App\Models\Applicant;
 use App\Helpers\APIFormatter;
 use App\Http\Requests\UpdateApplicantRequest as RequestUpdateApplicantRequest;
 use App\Http\Requests\ApplyRequest as RequestsApplyRequest;
+use Illuminate\Support\Facades\DB;
 
 class ApplicantController extends Controller
 {
@@ -16,7 +17,11 @@ class ApplicantController extends Controller
      */
     public function index()
     {
-        $data = Applicant::all();
+        $data = DB::table('applicant')
+            ->select('*', 'applicant.id as applicantID', 'experience.id as experienceID', 'experience.work_place as latest_work')
+            ->leftJoin('experience', 'experience.applicant_id', '=', 'applicant.id')
+            ->whereRaw('(CONVERT(SUBSTRING(experience.work_period, 6,5), INT)) IN (SELECT MAX(CONVERT(SUBSTRING(experience.work_period, 6,5), INT)) FROM experience)')
+            ->get();
 
         if ($data) {
             return $data;
@@ -49,12 +54,7 @@ class ApplicantController extends Controller
             'gender' => $request['gender'],
             'status' => $request['status'],
             'latest_education' => $request['education'],
-            'education_period' => $request['edufrom'] . ' - ' . $request['eduto'],
-            'latest_work' => $request['workingexp'],
-            'work_period' => $request['workfrom'] . ' - ' . $request['workto'],
-            'work_position' => $request['workingpos'],
-            'work_description' => $request['workingdesc'],
-            'it_capabilities' => $request['capabilities'],
+            'education_period' => $request['edufrom'] . ' - ' . $request['eduto']
         ]);
 
         $data = Applicant::where('id', '=', $applicant->id)->get();
@@ -113,11 +113,6 @@ class ApplicantController extends Controller
             'status' => $request['status'],
             'latest_education' => $request['education'],
             'education_period' => $request['edufrom'] . '-' . $request['eduto'],
-            'latest_work' => $request['workingexp'],
-            'work_period' => $request['workfrom'] . '-' . $request['workto'],
-            'work_position' => $request['workingpos'],
-            'work_description' => $request['workingdesc'],
-            'it_capabilities' => $request['capabilities'],
         ]);
 
         $data = Applicant::where('id', '=', $applicant->id)->get();

@@ -1,4 +1,4 @@
-<?php   
+<?php
 
 namespace App\Http\Controllers;
 
@@ -61,7 +61,7 @@ class AdminAccessController extends Controller
         } else {
             return APIFormatter::createAPI(400, 'Failed');
         }
-    }
+    }   
 
     /**
      * Display the specified resource.

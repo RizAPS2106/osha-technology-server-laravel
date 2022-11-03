@@ -26,4 +26,14 @@ class Experience extends Model
     {
         return $this->hasMany('App\Models\JobDesc');
     }
+
+    public function projects()
+    {
+        return $this->hasMany('App\Models\Projects');
+    }
+
+    public function tools()
+    {
+        return $this->hasMany('App\Models\Tools');
+    }
 }

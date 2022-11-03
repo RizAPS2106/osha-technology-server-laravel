@@ -19,8 +19,9 @@ class ApplicantController extends Controller
     {
         $data = DB::table('applicant')
             ->select('*', 'applicant.id as applicantID', 'experience.id as experienceID', 'experience.work_place as latest_work')
-            ->leftJoin('experience', 'experience.applicant_id', '=', 'applicant.id')
-            ->whereRaw('(CONVERT(SUBSTRING(experience.work_period, 6,5), INT)) IN (SELECT MAX(CONVERT(SUBSTRING(experience.work_period, 6,5), INT)) FROM experience)')
+            ->join('experience', 'experience.applicant_id', '=' . 'applicant.id')
+            ->whereRaw('(CONVERT(SUBSTRING(experience.work_period, 6,5), INT)) IN (SELECT MAX(CONVERT(SUBSTRING(experience.work_period, 6,5), INT)) FROM experience GROUP BY experience.applicant_id)')
+            ->groupBy('applicant.id')
             ->get();
 
         if ($data) {

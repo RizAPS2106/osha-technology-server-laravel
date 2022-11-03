@@ -17,8 +17,8 @@ class ToolsController extends Controller
      */
     public function index()
     {
-        $latest_experience = Experience::last();
-        $data = Tools::where('experience_id', '=', $latest_experience->id());
+        $latest_experience = Experience::latest()->first();;
+        $data = Tools::where('experience_id', '=', $latest_experience->id)->get();
 
         if ($data) {
             return $data;

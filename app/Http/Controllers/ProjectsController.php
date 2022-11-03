@@ -17,8 +17,8 @@ class ProjectsController extends Controller
      */
     public function index()
     {
-        $latest_experience = Experience::last();
-        $data = Projects::where('experience_id', '=', $latest_experience->id());
+        $latest_experience = Experience::latest()->first();;
+        $data = Projects::where('experience_id', '=', $latest_experience->id)->get();
 
         if ($data) {
             return $data;

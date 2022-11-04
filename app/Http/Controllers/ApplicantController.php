@@ -17,15 +17,27 @@ class ApplicantController extends Controller
      */
     public function index()
     {
-        $data = DB::table('applicant')
+        $datas = DB::table('applicant')
             ->select('*', 'applicant.id as applicantID', 'experience.id as experienceID', 'experience.work_place as latest_work')
             ->join('experience', 'experience.applicant_id', '=', 'applicant.id')
-            ->whereRaw('(CONVERT(SUBSTRING(experience.work_period, 6,5), INT)) IN (SELECT MAX(CONVERT(SUBSTRING(experience.work_period, 6,5), INT)) FROM experience GROUP BY experience.applicant_id)')
+            ->whereRaw('(experience.applicant_id, CONVERT(SUBSTRING(experience.work_period, 6,5), INT)) IN (select experience.applicant_id, MAX(CONVERT(SUBSTRING(experience.work_period, 6,5), INT)) from experience group by experience.applicant_id)')
             ->groupBy('applicant.id')
             ->get();
 
-        if ($data) {
-            return $data;
+        foreach ($datas as $data) {
+            $dataExps = DB::table('experience')
+                ->selectRaw('*, sum(CONVERT(SUBSTRING(experience.work_period, 6,5), INT)-CONVERT(SUBSTRING(experience.work_period, 1,5), INT)) as total_exp')
+                ->groupBy('experience.applicant_id')
+                ->where('experience.applicant_id', $data->applicantID)
+                ->get();
+
+            foreach ($dataExps as $dataExp) {
+                $data->total_exp = $dataExp->total_exp;
+            }
+        }
+
+        if ($datas) {
+            return $datas;
         }
     }
 

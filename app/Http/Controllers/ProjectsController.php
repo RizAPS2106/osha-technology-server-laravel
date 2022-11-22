@@ -49,10 +49,11 @@ class ProjectsController extends Controller
             return $value['value'] != "";
         });
 
-        for ($i = 0; $i < count($filteredArray); $i++) {
+        $projects = [];
+        foreach ($filteredArray as $filledData) {
             $projects[] = [
                 'experience_id' => $latest_experience->id,
-                'work_project' => $filteredArray[$i]['value']
+                'work_project' => $filledData['value']
             ];
         }
 

@@ -49,10 +49,11 @@ class ToolsController extends Controller
             return $value['value'] != "";
         });
 
-        for ($i = 0; $i < count($filteredArray); $i++) {
+        $tools = [];
+        foreach ($filteredArray as $filledData) {
             $tools[] = [
                 'experience_id' => $latest_experience->id,
-                'work_tool' => $filteredArray[$i]['value']
+                'work_tool' => $filledData['value']
             ];
         }
 

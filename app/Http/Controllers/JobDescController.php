@@ -7,6 +7,7 @@ use App\Models\Experience;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Helpers\APIFormatter;
+use Mockery\Undefined;
 
 class JobDescController extends Controller
 {
@@ -39,10 +40,11 @@ class JobDescController extends Controller
             return $value['value'] != "";
         });
 
-        for ($i = 0; $i < count($filteredArray); $i++) {
+        $jobdescs = [];
+        foreach ($filteredArray as $filledData) {
             $jobdescs[] = [
                 'experience_id' => $latest_experience->id,
-                'work_description' => $filteredArray[$i]['value']
+                'work_description' => $filledData['value']
             ];
         }
 

@@ -85,8 +85,16 @@ class ExperienceController extends Controller
      * @param  \App\Models\Experience  $experience
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Experience $experience)
+    public function destroy(Experience $experience, $id)
     {
-        //
+        $experience = Experience::findOrFail($id);
+
+        $data = $experience->delete();
+
+        if ($data) {
+            return APIFormatter::createAPI(200, 'Destroy Data Success');
+        } else {
+            return APIFormatter::createAPI(400, 'Failed');
+        }
     }
 }

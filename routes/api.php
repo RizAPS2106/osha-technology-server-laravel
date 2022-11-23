@@ -37,7 +37,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::delete('admin_access/destroy/{id}', [AdminAccessController::class, 'destroy']);
     Route::post('admin_access/logout', [AuthController::class, 'logout']);
 
-    Route::get('applicant', [ApplicantController::class, 'index']);
+
     Route::get('applicant/show/{id}', [ApplicantController::class, 'show']);
     Route::put('applicant/update/{id}', [ApplicantController::class, 'update']);
     Route::delete('applicant/destroy/{id}', [ApplicantController::class, 'destroy']);
@@ -58,11 +58,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::delete('capabilities/destroy/{id}', [CapabilitiesController::class, 'destroy']);
 });
 
+Route::get('applicant', [ApplicantController::class, 'index']);
 Route::post('applicant/store', [ApplicantController::class, 'store']);
 
 Route::get('experience', [ExperienceController::class, 'index']);
 Route::post('experience/store', [ExperienceController::class, 'store']);
 Route::get('experience/show/{id}', [ExperienceController::class, 'show']);
+Route::delete('experience/destroy/{id}', [ExperienceController::class, 'destroy']);
 
 Route::get('jobdesc', [JobDescController::class, 'index']);
 Route::post('jobdesc/store', [JobDescController::class, 'store']);

@@ -1,4 +1,4 @@
-<?php   
+<?php
 
 namespace App\Models;
 
@@ -22,7 +22,7 @@ class Experience extends Model
         return $this->belongsTo('App\Models\Applicant');
     }
 
-    public function jobdesc()
+    public function jobdescs()
     {
         return $this->hasMany('App\Models\JobDesc');
     }

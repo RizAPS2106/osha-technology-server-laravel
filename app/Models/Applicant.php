@@ -17,7 +17,7 @@ class Applicant extends Model
     protected $guarded = [];
     protected $hidden = [];
 
-    public function experience()
+    public function experiences()
     {
         return $this->hasMany('App\Models\Experience');
     }

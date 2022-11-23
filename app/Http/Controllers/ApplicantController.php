@@ -17,10 +17,22 @@ class ApplicantController extends Controller
      */
     public function index()
     {
+        $applicants = Applicant::withTrashed()->get();
+
+        $incomplete_applicants = [];
+        foreach ($applicants as $applicant) {
+            if ($applicant->experiences->count() < 1 || $applicant->capabilities->count() < 1) {
+                $incomplete_applicants[] = $applicant->id;
+            }
+        }
+
+        Applicant::withTrashed()->whereIn('id', $incomplete_applicants)->forceDelete();
+
         $datas = DB::table('applicant')
             ->select('*', 'applicant.id as applicantID', 'experience.id as experienceID', 'experience.work_place as latest_work')
             ->join('experience', 'experience.applicant_id', '=', 'applicant.id')
             ->whereRaw('(experience.applicant_id, CONVERT(SUBSTRING(experience.work_period, 6,5), INT)) IN (select experience.applicant_id, MAX(CONVERT(SUBSTRING(experience.work_period, 6,5), INT)) from experience group by experience.applicant_id)')
+            ->where('applicant.deleted_at', null)
             ->groupBy('applicant.id')
             ->get();
 
